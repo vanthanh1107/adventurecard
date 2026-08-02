@@ -1,4 +1,6 @@
-// ... (Giữ nguyên các hàm loadMap, spawnMonster, keydown, keyup như cũ) ...
+// Thêm 1 biến để khóa di chuyển
+var isTransitioning = false;
+
 function loadMap(mapKey, startCol, startRow) {
     currentMapKey = mapKey;
     currentMap = maps[mapKey];
@@ -17,6 +19,15 @@ function loadMap(mapKey, startCol, startRow) {
         }
         currentMap.isLoaded = true;
     }
+
+    // KHÓA DI CHUYỂN TRONG 0.5 GIÂY ĐỂ TRÁNH LỖI VÒNG LẶP CỔNG
+    isTransitioning = true;
+    keys.w = false; keys.a = false; keys.s = false; keys.d = false; // Tắt kẹt phím
+    keys.arrowup = false; keys.arrowleft = false; keys.arrowdown = false; keys.arrowright = false;
+    
+    setTimeout(function() {
+        isTransitioning = false;
+    }, 500); 
 }
 
 function spawnMonster(mapKey) {
