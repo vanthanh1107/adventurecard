@@ -1,13 +1,16 @@
-var WORLD_WIDTH = 3000;
-var WORLD_HEIGHT = 3000;
+var TILE_SIZE = 50; // Kích thước mỗi ô vuông là 50x50 pixel
+
+// Chiều rộng = Số cột x 50. Chiều cao = Số hàng x 50
+var WORLD_WIDTH = worldMap[0].length * TILE_SIZE;
+var WORLD_HEIGHT = worldMap.length * TILE_SIZE;
 
 var player = {
-    x: WORLD_WIDTH / 2,
-    y: WORLD_HEIGHT / 2,
-    width: 40,
-    height: 40,
+    x: 150, // Vị trí bắt đầu (X)
+    y: 150, // Vị trí bắt đầu (Y)
+    width: 35,
+    height: 35,
     speed: 5,
-    color: "#3498db"
+    color: "#e74c3c" // Màu đỏ cho nhân vật
 };
 
 var camera = {
@@ -17,18 +20,7 @@ var camera = {
     height: 600
 };
 
-// Chuẩn hóa tên phím thành chữ thường để không bị lỗi CapsLock
 var keys = {
     w: false, a: false, s: false, d: false,
     arrowup: false, arrowleft: false, arrowdown: false, arrowright: false
 };
-
-var obstacles = [];
-for(var i = 0; i < 200; i++) {
-    obstacles.push({
-        x: Math.random() * WORLD_WIDTH,
-        y: Math.random() * WORLD_HEIGHT,
-        size: 30 + Math.random() * 50,
-        color: Math.random() > 0.5 ? "#27ae60" : "#7f8c8d"
-    });
-}
