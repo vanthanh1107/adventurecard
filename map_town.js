@@ -16,22 +16,20 @@ maps["Town"] = {
         { col: 7, row: 3, targetMap: "Forest", targetCol: 2, targetRow: 3 }
     ],
     // DANH SÁCH BẢN THỂ (NPC) ĐỨNG TRONG LÀNG
+    // ... (Phần grid và portals giữ nguyên)
     npcs: [
         { 
-            col: 4, row: 2,           // Tọa độ đứng (Cột 4, Hàng 2)
-            name: "Trưởng Làng", 
-            color: "#f39c12",         // Màu vàng
-            dialog: "Hãy cẩn thận lũ Slime ngoài rừng!", // Lời thoại
-            showDialog: false         // Trạng thái hiển thị thoại (mặc định tắt)
+            id: "truong_lang", // Gọi ID từ file char_npc.js
+            col: 4, row: 2, 
+            showDialog: false 
         },
         { 
+            id: "tho_ren",     // Gọi ID từ file char_npc.js
             col: 2, row: 4, 
-            name: "Thợ Rèn", 
-            color: "#95a5a6", 
-            dialog: "Cần nâng cấp kiếm không nhóc?",
             showDialog: false 
         }
     ],
+    // ...
     monsterConfig: null, 
     monsters: [],
     isLoaded: false
