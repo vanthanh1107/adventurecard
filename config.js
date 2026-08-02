@@ -1,8 +1,9 @@
 var TILE_SIZE = 50; 
 
-// Biến lưu Map hiện tại
+// KHỞI TẠO KHO CHỨA MAP TOÀN CỤC (Rất quan trọng)
+var maps = {}; 
 var currentMapKey = "Town";
-var currentMap = maps[currentMapKey];
+var currentMap = null; 
 var WORLD_WIDTH = 0;
 var WORLD_HEIGHT = 0;
 
@@ -12,7 +13,7 @@ var player = {
     speed: 5,
     color: "#e74c3c",
     hp: 100, maxHp: 100,
-    atk: 25 // Sát thương mỗi lần đâm vào quái
+    atk: 25 
 };
 
 var camera = { x: 0, y: 0, width: 800, height: 600 };
