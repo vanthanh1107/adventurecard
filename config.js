@@ -1,24 +1,21 @@
-var TILE_SIZE = 50; // Kích thước mỗi ô vuông là 50x50 pixel
+var TILE_SIZE = 50; 
 
-// Chiều rộng = Số cột x 50. Chiều cao = Số hàng x 50
-var WORLD_WIDTH = worldMap[0].length * TILE_SIZE;
-var WORLD_HEIGHT = worldMap.length * TILE_SIZE;
+// Biến lưu Map hiện tại
+var currentMapKey = "Town";
+var currentMap = maps[currentMapKey];
+var WORLD_WIDTH = 0;
+var WORLD_HEIGHT = 0;
 
 var player = {
-    x: 150, // Vị trí bắt đầu (X)
-    y: 150, // Vị trí bắt đầu (Y)
-    width: 35,
-    height: 35,
+    x: 100, y: 100,
+    width: 35, height: 35,
     speed: 5,
-    color: "#e74c3c" // Màu đỏ cho nhân vật
+    color: "#e74c3c",
+    hp: 100, maxHp: 100,
+    atk: 25 // Sát thương mỗi lần đâm vào quái
 };
 
-var camera = {
-    x: 0,
-    y: 0,
-    width: 800,
-    height: 600
-};
+var camera = { x: 0, y: 0, width: 800, height: 600 };
 
 var keys = {
     w: false, a: false, s: false, d: false,
