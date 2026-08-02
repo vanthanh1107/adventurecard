@@ -11,6 +11,7 @@ maps["Forest"] = {
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     portals: [
+        // SỬA targetCol thành 6 (để né cái cổng ở cột 7 của Town)
         { col: 1, row: 3, targetMap: "Town", targetCol: 6, targetRow: 3 }
     ],
     npcs: [
