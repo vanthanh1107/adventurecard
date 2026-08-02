@@ -12,7 +12,8 @@ maps["Town"] = {
         [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
     ],
     portals: [
-        { col: 7, row: 3, targetMap: "Forest", targetCol: 1, targetRow: 3 }
+        // SỬA targetCol thành 2 (để né cái cổng ở cột 1 của Forest)
+        { col: 7, row: 3, targetMap: "Forest", targetCol: 2, targetRow: 3 }
     ],
     // DANH SÁCH BẢN THỂ (NPC) ĐỨNG TRONG LÀNG
     npcs: [
