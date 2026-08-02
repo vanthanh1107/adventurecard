@@ -76,6 +76,9 @@ function canMoveTo(newX, newY) {
 }
 
 function update() {
+    // ĐÂY LÀ DÒNG QUAN TRỌNG NHẤT: Chặn mọi hoạt động (di chuyển, va chạm cổng) nếu đang trong 0.5s chuyển map
+    if (isTransitioning) return;
+
     var nextX = player.x, nextY = player.y;
     if (keys.w || keys.arrowup) nextY -= player.speed;
     if (keys.s || keys.arrowdown) nextY += player.speed;
