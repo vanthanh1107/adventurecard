@@ -1,95 +1,43 @@
-// Ghi log ra màn hình
-function addLog(msg, color = "#fff") {
-    const logBox = document.getElementById("battle-log");
-    logBox.innerHTML += `<div style="color: ${color};">> ${msg}</div>`;
-    logBox.scrollTop = logBox.scrollHeight;
-}
-
-// Cập nhật máu trên UI
-function updateHUD() {
-    document.getElementById("player-hp").innerText = player.hp;
-    document.getElementById("player-mp").innerText = player.mp;
-    
-    if(currentEnemy) {
-        document.getElementById("enemy-name").innerText = currentEnemy.name;
-        document.getElementById("enemy-hp").innerText = currentEnemy.hp;
-        document.getElementById("enemy-maxhp").innerText = currentEnemy.maxHp;
+// Bắt sự kiện nhấn phím
+window.addEventListener("keydown", function(e) {
+    if (keys.hasOwnProperty(e.key) || keys.hasOwnProperty(e.key.toLowerCase())) {
+        keys[e.key.toLowerCase()] = true;
+        keys[e.key] = true; 
     }
-    drawScene();
-}
+});
 
-// Spawn quái mới
-function spawnEnemy() {
-    if (currentEnemyIndex >= enemies.length) {
-        addLog("🎉 CHÚC MỪNG! BẠN ĐÃ TIÊU DIỆT HẾT QUÁI VẬT!", "#f1c40f");
-        return;
+// Bắt sự kiện thả phím
+window.addEventListener("keyup", function(e) {
+    if (keys.hasOwnProperty(e.key) || keys.hasOwnProperty(e.key.toLowerCase())) {
+        keys[e.key.toLowerCase()] = false;
+        keys[e.key] = false;
     }
-    // Copy dữ liệu quái từ config
-    currentEnemy = Object.assign({}, enemies[currentEnemyIndex]);
-    addLog(`⚠️ Quái vật xuất hiện: ${currentEnemy.name}!`, "#e67e22");
-    updateHUD();
-}
+});
 
-// Quái vật phản công
-function enemyTurn() {
-    if (currentEnemy.hp <= 0) return;
-    
-    let damage = Math.max(1, currentEnemy.atk - player.def + Math.floor(Math.random() * 5));
-    player.hp -= damage;
-    addLog(`💥 ${currentEnemy.name} đánh trả! Bạn mất ${damage} HP.`, "#e74c3c");
-    
-    if (player.hp <= 0) {
-        player.hp = 0;
-        addLog("💀 BẠN ĐÃ TỬ TRẬN. GAME OVER!", "#c0392b");
-        // Khóa nút
-        document.getElementById("btn-attack").disabled = true;
-    }
-    updateHUD();
-}
+function update() {
+    // 1. Cập nhật vị trí nhân vật theo bàn phím
+    if (keys.w || keys.ArrowUp) player.y -= player.speed;
+    if (keys.s || keys.ArrowDown) player.y += player.speed;
+    if (keys.a || keys.ArrowLeft) player.x -= player.speed;
+    if (keys.d || keys.ArrowRight) player.x += player.speed;
 
-// Kỹ năng tấn công thường
-function playerAttack() {
-    if (player.hp <= 0 || !currentEnemy) return;
+    // 2. Chặn không cho nhân vật đi ra ngoài ranh giới Thế Giới
+    if (player.x < 0) player.x = 0;
+    if (player.y < 0) player.y = 0;
+    if (player.x + player.width > WORLD_WIDTH) player.x = WORLD_WIDTH - player.width;
+    if (player.y + player.height > WORLD_HEIGHT) player.y = WORLD_HEIGHT - player.height;
 
-    let damage = player.atk + Math.floor(Math.random() * 5);
-    currentEnemy.hp -= damage;
-    addLog(`🗡️ Bạn chém ${currentEnemy.name} gây ${damage} sát thương!`, "#3498db");
+    // 3. Cập nhật Camera luôn đi theo giữa nhân vật
+    camera.x = player.x + (player.width / 2) - (camera.width / 2);
+    camera.y = player.y + (player.height / 2) - (camera.height / 2);
 
-    checkEnemyDeath();
-}
+    // Chặn Camera không được chiếu ra vùng không gian trống ngoài map
+    if (camera.x < 0) camera.x = 0;
+    if (camera.y < 0) camera.y = 0;
+    if (camera.x + camera.width > WORLD_WIDTH) camera.x = WORLD_WIDTH - camera.width;
+    if (camera.y + camera.height > WORLD_HEIGHT) camera.y = WORLD_HEIGHT - camera.height;
 
-// Kỹ năng dùng phép
-function playerMagic() {
-    if (player.hp <= 0 || !currentEnemy) return;
-    if (player.mp < 10) {
-        addLog("❌ Không đủ MP!", "#888");
-        return;
-    }
-    
-    player.mp -= 10;
-    let damage = player.atk * 2; // Phép mạnh gấp đôi
-    currentEnemy.hp -= damage;
-    addLog(`🔥 Bạn phóng Cầu Lửa vào ${currentEnemy.name} gây ${damage} sát thương!`, "#e74c3c");
-    
-    checkEnemyDeath();
-}
-
-// Kiểm tra xem quái đã chết chưa
-function checkEnemyDeath() {
-    if (currentEnemy.hp <= 0) {
-        currentEnemy.hp = 0;
-        addLog(`🏆 Bạn đã tiêu diệt ${currentEnemy.name}!`, "#2ecc71");
-        updateHUD();
-        
-        // Hồi chút máu và mp sau khi qua ải
-        player.hp = Math.min(player.maxHp, player.hp + 20);
-        player.mp = Math.min(player.maxMp, player.mp + 15);
-        
-        currentEnemyIndex++;
-        setTimeout(spawnEnemy, 2000); // 2 giây sau ra quái mới
-    } else {
-        // Quái chưa chết thì nó đánh lại
-        setTimeout(enemyTurn, 800);
-    }
-    updateHUD();
+    // 4. Update UI tọa độ
+    document.getElementById("ui-x").innerText = Math.floor(player.x);
+    document.getElementById("ui-y").innerText = Math.floor(player.y);
 }
