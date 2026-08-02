@@ -1,15 +1,18 @@
 function gameLoop() {
-    update();      // Cập nhật logic, tọa độ
-    drawScene();   // Vẽ ra màn hình
+    update();      // Xử lý logic di chuyển
+    drawScene();   // Xuất hình ảnh ra Canvas
     
-    // Chạy vòng lặp liên tục (khoảng 60 FPS)
     requestAnimationFrame(gameLoop);
 }
 
-// Khởi tạo game
 window.initGame = function() {
-    console.log("Thế giới mở đã tải xong!");
+    console.log("Bắt đầu khởi tạo hệ thống Thế Giới Mở...");
     
-    // Bắt đầu vòng lặp game
+    // Khởi tạo Canvas trước tiên
+    if(typeof initGraphics === 'function') {
+        initGraphics();
+    }
+    
+    // Bật vòng lặp game
     requestAnimationFrame(gameLoop);
 };
